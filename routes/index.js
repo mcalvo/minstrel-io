@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+var models = require('../models/models')
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -9,11 +11,15 @@ router.get('/', function(req, res, next) {
 /* GET Userlist page.*/
 router.get('/userlist', function(req, res, next) {
     var db = req.db;
-    var collection = db.get('usercollection');
-    collection.find({},{},function(e, docs){
+    var User = models.User;
+
+    // Get all the users. We could probably filter later.
+    User.find({},function(e, users){
+        if (e) throw e;
+
         res.render('userlist', {
             "title": "User List",
-            "userlist" : docs
+            "userlist" : users
         });
     });
 });
@@ -31,12 +37,16 @@ router.post('/adduser', function(req, res) {
     var userName = req.body.username;
     var userEmail = req.body.useremail;
 
-    var collection = db.get('usercollection')
+    var User = models.User;
 
-    collection.insert({
+    // Create User in memory
+    var user = new User({
         "username": userName,
         "email": userEmail,
-    }, function(err, doc) {
+    });
+
+    // Save to database
+    user.save(function(err) {
         if (err) {
             res.send("There was a problem adding information to the db.");
         } else {

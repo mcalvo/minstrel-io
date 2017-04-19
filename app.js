@@ -5,9 +5,12 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var mongo = require('mongodb')
-var monk = require('monk')
-var db = monk('127.0.0.1:27017/minstrel')
+// database setup
+var mongo = require('mongodb');
+var mongoose = require('mongoose');
+mongoose.connect('127.0.0.1:27017/minstrel');
+
+var db = mongoose.connection;
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -27,6 +30,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Connect here so I don't need to call it everywhere
 app.use(function(req, res, next){
     req.db = db;
     next();
