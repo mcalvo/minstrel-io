@@ -14,7 +14,7 @@ router.get('/userlist', function(req, res, next) {
     var User = models.User;
 
     // Get all the users. We could probably filter later.
-    User.find({},function(e, users){
+    User.find(function(e, users){
         if (e) throw e;
 
         res.render('userlist', {

@@ -6,4 +6,12 @@ var userSchema = new Schema({
     email: String,
 });
 
+userSchema.method('greet', function(){
+    if(this.username) {
+        return "I am called" + this.username;
+    } else {
+        return "I have no name";
+    }
+});
+
 module.exports.userSchema = userSchema;
