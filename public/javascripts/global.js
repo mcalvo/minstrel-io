@@ -34,9 +34,12 @@ function populateSegmentTable(){
 function showSegment(event) {
     event.preventDefault();
     var thisSegmentText = $(this).attr('rel');
-    var arrayPosition = segListData.map(function(arrayItem) { return arrayItem.text; }).indexOf(thisSegmentText);
+    var arrayPosition = segListData.map(function(arrayItem) { return arrayItem._id; }).indexOf(thisSegmentText);
 
+    // Get Segment
     var thisSegmentObject = segListData[arrayPosition];
+
+    // Populate Segment Info
     $('#segmentSegmentType').text(thisSegmentObject.segmentType);
     $('#segmentText').text(thisSegmentObject.text);
 }
