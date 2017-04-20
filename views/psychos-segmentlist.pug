@@ -1,0 +1,26 @@
+extends layout
+
+block content
+    h1 #{title}
+    p Welcome to table display
+
+    // Wrapper
+    #wrapper
+        h2 Segments
+        #segList
+            table
+                thead
+                    th Segment
+                    th Type
+                    th Edit?
+                    th Delete?
+                tbody
+                    each seg, i in segmentlist
+                        tr
+                            td  #{seg.text}
+                            td
+                                #{seg.segmentType}
+                            td
+                                button#btnGreet(type="submit") Edit
+                            td
+                                button#btnDelete(type="submit") Delete

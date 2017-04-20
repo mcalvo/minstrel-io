@@ -3,3 +3,24 @@ extends layout
 block content
     h1=title
     p Generate psycho names
+
+    // Wrapper
+    #wrapper
+        #segInfo
+            h2 Segment Info
+            p
+                strong Type:
+                |   <span id='segmentSegmentType'></span>
+                br
+                strong Text:
+                |   <span id='segmentText'></span>
+
+        h2 Segments
+        #segList
+            table
+                thead
+                    th Segment
+                    th Type
+                    th Edit?
+                    th Delete?
+                tbody
