@@ -35,7 +35,7 @@ router.post('/addsegment', function(req, res){
     var db = req.db;
     var NameSegment = models.NameSegment;
 
-    var segment = new Segment(req.body).save(function(err){
+    var segment = new NameSegment(req.body).save(function(err){
         res.send(
             (err === null) ? { msg: '' } : { msg: err }
         );

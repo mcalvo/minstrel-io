@@ -46,7 +46,6 @@ function populateSegmentDropdown(){
         });
 
         //Inject into HTML table
-        //$('#segTypes p').html(listContent);
         $('#segAdd fieldset select#inputSegmentType').html(listContent);
     });
 };
@@ -65,13 +64,44 @@ function showSegment(event) {
     $('#segmentText').text(thisSegmentObject.text);
 }
 
+/*
 // Add Segment through Ajax
 function addSegment(event) {
     event.preventDefault();
 
     alert($('#segAdd fieldset input#inputSegmentText').val());
-    alert($('#segAdd fieldset input#inputSegmentType').val());
+    alert($('#segAdd fieldset select#inputSegmentType').val());
 
+}
+*/
+// Add Segment through Ajax
+function addSegment(event) {
+    event.preventDefault();
+
+    // Need some validation
     //If no errors, compile into object
+    var newSeg = {
+        'segmentType': $('#segAdd fieldset select#inputSegmentType').val(),
+        'text': $('#segAdd fieldset input#inputSegmentText').val()
+    }
 
+    $.ajax({
+        type: 'POST',
+        data: newSeg,
+        url: '/psychos/addsegment',
+        dataType: 'JSON'
+    }).done(function(response) {
+        if (response.msg === ''){
+            // Empty text field
+            $('#segAdd fieldset input').val('');
+
+            // Reset dropdown
+            populateSegmentDropdown();
+
+            // Update table
+            populateSegmentTable();
+        } else {
+            alert('Error: ' + response.msg);
+        }
+    });
 }
