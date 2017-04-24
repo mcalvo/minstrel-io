@@ -27,7 +27,6 @@ function populateSegmentTable(){
             tableContent += '<td><a href="#" class="linkdeletesegment" rel="' + this._id + '">Delete</a></td>'; // Delete
             tableContent += '</tr>';
         });
-
         //Inject into HTML table
         $('#segList table tbody').html(tableContent);
     });
@@ -64,16 +63,6 @@ function showSegment(event) {
     $('#segmentText').text(thisSegmentObject.text);
 }
 
-/*
-// Add Segment through Ajax
-function addSegment(event) {
-    event.preventDefault();
-
-    alert($('#segAdd fieldset input#inputSegmentText').val());
-    alert($('#segAdd fieldset select#inputSegmentType').val());
-
-}
-*/
 // Add Segment through Ajax
 function addSegment(event) {
     event.preventDefault();

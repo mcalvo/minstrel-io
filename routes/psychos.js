@@ -18,7 +18,7 @@ router.get('/segments', function(req, res){
     });
 });
 
-/* GET name segments. */
+/* GET name segment types. */
 router.get('/segmentTypes', function(req, res){
     var db = req.db;
     var NameSegment = models.NameSegment;
