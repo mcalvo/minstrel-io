@@ -24,3 +24,19 @@ block content
                     th Edit?
                     th Delete?
                 tbody
+
+        h2 Add Segment
+        #segAdd
+            fieldset
+                input#inputSegmentText(type='text', placeholder='Text')
+                select#inputSegmentType
+                    option(value='title') Home
+                    option(value='adjective') Adjective
+                    option(value='locale') Locale
+                    option(value='name') Name
+                    option(value='weapon') Weapon
+                    option(value='animal') Animal
+                    option(value='bodyPart') Body Part
+
+                br
+                button#btnAddSegment Add Segment

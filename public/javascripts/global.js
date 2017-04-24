@@ -4,6 +4,7 @@ var segListData = [];
 $(document).ready(function(){
     populateSegmentTable();
     $('#segList table tbody').on('click', 'td a.linkshowsegment', showSegment);
+    $('#btnAddSegment').on('click', addSegment);
 });
 
 // Functions ============
@@ -43,3 +44,19 @@ function showSegment(event) {
     $('#segmentSegmentType').text(thisSegmentObject.segmentType);
     $('#segmentText').text(thisSegmentObject.text);
 }
+
+// Add Segment through Ajax
+function addSegment(event) {
+    event.preventDefault();
+
+    alert($('#segAdd fieldset input#inputSegmentType').text());
+    alert($('#segAdd fieldset input#inputSegmentText').val());
+
+    //If no errors, compile into object
+
+}
+
+
+
+
+
