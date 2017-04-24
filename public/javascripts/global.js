@@ -1,8 +1,10 @@
 var segListData = [];
+var segTypesData = [];
 
 // DOM Ready ============
 $(document).ready(function(){
     populateSegmentTable();
+    populateSegmentDropdown();
     $('#segList table tbody').on('click', 'td a.linkshowsegment', showSegment);
     $('#btnAddSegment').on('click', addSegment);
 });
@@ -31,6 +33,24 @@ function populateSegmentTable(){
     });
 };
 
+// Ajax calls for our segment dropdown
+function populateSegmentDropdown(){
+    var listContent = '';
+
+    // jQuery AJAX call for json
+    $.getJSON('/psychos/segmentTypes', function(data){
+        segTypesData = data;
+        // Add row for each item in data
+        $.each(data, function(){
+            listContent += '<option value="' + this + '">' + this + '</option>'; // Segment
+        });
+
+        //Inject into HTML table
+        //$('#segTypes p').html(listContent);
+        $('#segAdd fieldset select#inputSegmentType').html(listContent);
+    });
+};
+
 // Display Segments
 function showSegment(event) {
     event.preventDefault();
@@ -49,14 +69,9 @@ function showSegment(event) {
 function addSegment(event) {
     event.preventDefault();
 
-    alert($('#segAdd fieldset input#inputSegmentType').text());
     alert($('#segAdd fieldset input#inputSegmentText').val());
+    alert($('#segAdd fieldset input#inputSegmentType').val());
 
     //If no errors, compile into object
 
 }
-
-
-
-
-

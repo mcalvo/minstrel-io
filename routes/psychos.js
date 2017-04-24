@@ -4,7 +4,7 @@ var models = require('../models/models')
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  res.render('psychos-index', { title: 'Psycho Generator' });
+  res.render('psychos-index', { title: 'Psycho Generator',  });
 });
 
 /* GET name segments. */
@@ -17,6 +17,18 @@ router.get('/segments', function(req, res){
         res.json(segments);
     });
 });
+
+/* GET name segments. */
+router.get('/segmentTypes', function(req, res){
+    var db = req.db;
+    var NameSegment = models.NameSegment;
+
+    NameSegment.find().distinct('segmentType', function(e, segmentTypes){
+        if (e) throw e;
+        res.json(segmentTypes);
+    });
+});
+
 
 /* POST name segments */
 router.post('/addsegment', function(req, res){
