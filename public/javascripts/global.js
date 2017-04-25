@@ -4,9 +4,11 @@ var segTypesData = [];
 // DOM Ready ============
 $(document).ready(function(){
     populateSegmentTable();
+    populatePagination();
     populateSegmentDropdown();
     $('#segList table tbody').on('click', 'td a.linkshowsegment', showSegment);
     $('#btnAddSegment').on('click', addSegment);
+
 });
 
 // Functions ============
@@ -31,6 +33,21 @@ function populateSegmentTable(){
         $('#segList table tbody').html(tableContent);
     });
 };
+
+function populatePagination(){
+    /*
+    $('#segPagination table').DataTable({
+        'processing': true,
+        'serverSide': true,
+        'ajax': '/psychos/segments',
+        'columns': [
+            {'data': '_id' },
+            {'data': 'text'},
+            {'data': 'segmentType'}
+        ]
+    });
+    */
+}
 
 // Ajax calls for our segment dropdown
 function populateSegmentDropdown(){
@@ -94,3 +111,4 @@ function addSegment(event) {
         }
     });
 }
+

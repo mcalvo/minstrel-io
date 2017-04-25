@@ -43,4 +43,12 @@ router.post('/addsegment', function(req, res){
 
 });
 
+/* GET name generation */
+router.get('/name', function(req, res){
+    // Get list of Name Types
+    // Pick 2-3 types.
+    // Pick a random word of each type.
+    // Present them in a random order.
+});
+
 module.exports = router;
