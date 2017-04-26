@@ -12,7 +12,9 @@ router.get('/segments', function(req, res){
     var db = req.db;
     var NameSegment = models.NameSegment;
 
-    NameSegment.find(function(e, segments){
+    NameSegment.find()
+        .select('text segmentType _id')
+        .exec(function(e, segments){
         if (e) throw e;
         res.json(segments);
     });

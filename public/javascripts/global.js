@@ -4,7 +4,7 @@ var segTypesData = [];
 // DOM Ready ============
 $(document).ready(function(){
     populateSegmentTable();
-    populatePagination();
+    //populatePagination();
     populateSegmentDropdown();
     $('#segList table tbody').on('click', 'td a.linkshowsegment', showSegment);
     $('#btnAddSegment').on('click', addSegment);
@@ -18,7 +18,7 @@ function populateSegmentTable(){
     var tableContent = '';
 
     // jQuery AJAX call for json
-    $.getJSON('/psychos/segments', function(data){
+    $.getJSON('/psychos/segments', function(data, populatePagination){
         segListData = data;
         // Add row for each item in data
         $.each(data, function(){
@@ -31,22 +31,12 @@ function populateSegmentTable(){
         });
         //Inject into HTML table
         $('#segList table tbody').html(tableContent);
+        //$('#segList table').DataTable();
     });
 };
 
 function populatePagination(){
-    /*
-    $('#segPagination table').DataTable({
-        'processing': true,
-        'serverSide': true,
-        'ajax': '/psychos/segments',
-        'columns': [
-            {'data': '_id' },
-            {'data': 'text'},
-            {'data': 'segmentType'}
-        ]
-    });
-    */
+    $('#segList table').DataTable();
 }
 
 // Ajax calls for our segment dropdown
@@ -106,6 +96,7 @@ function addSegment(event) {
 
             // Update table
             populateSegmentTable();
+            //populatePagination();
         } else {
             alert('Error: ' + response.msg);
         }

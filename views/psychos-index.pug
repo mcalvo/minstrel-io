@@ -6,6 +6,14 @@ block content
 
     // Wrapper
     #wrapper
+        h2 Add Segment
+        #segAdd
+            fieldset
+                input#inputSegmentText(type='text', placeholder='Text')
+                select#inputSegmentType
+                br
+                button#btnAddSegment Add Segment
+
         #segInfo
             h2 Segment Info
             p
@@ -25,18 +33,4 @@ block content
                     th Delete?
                 tbody
 
-        h2 Segment Pagination
-        #segPagination
-            table
-                thead
-                    th ID
-                    th Segment
-                    th Type
 
-        h2 Add Segment
-        #segAdd
-            fieldset
-                input#inputSegmentText(type='text', placeholder='Text')
-                select#inputSegmentType
-                br
-                button#btnAddSegment Add Segment
