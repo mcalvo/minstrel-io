@@ -51,7 +51,12 @@ router.get('/name', function(req, res){
     var NameSegment = models.NameSegment;
     NameSegment.find().distinct('segmentType', function(e, sTypes){
         if (e) throw e;
-        res.json({'length': sTypes.length, 'data': sTypes});
+        var array_rand = function(items){
+            var int = Math.floor(Math.random()*items.length);
+            var result = items.splice(int, 1);
+            return result;
+        };
+        res.json({'data': sTypes, 'rand': array_rand(sTypes)});
     });
 
 
