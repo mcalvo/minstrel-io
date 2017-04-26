@@ -3,10 +3,14 @@ var segTypesData = [];
 
 // DOM Ready ============
 $(document).ready(function(){
+    /*
     populateSegmentTable();
-    //populatePagination();
-    populateSegmentDropdown();
     $('#segList table tbody').on('click', 'td a.linkshowsegment', showSegment);
+    */
+    populatePagination();
+    $('#segPage div table tbody').on('click', 'td a.linkshowsegment', showSegment);
+
+    populateSegmentDropdown();
     $('#btnAddSegment').on('click', addSegment);
 
 });
@@ -18,10 +22,10 @@ function populateSegmentTable(){
     var tableContent = '';
 
     // jQuery AJAX call for json
-    $.getJSON('/psychos/segments', function(data, populatePagination){
-        segListData = data;
+    $.getJSON('/psychos/segments', function(data){
+        segListData = data.data;
         // Add row for each item in data
-        $.each(data, function(){
+        $.each(data.data, function(){
             tableContent += '<tr>';
             tableContent += '<td>' + this.text + '</td>'; // Segment
             tableContent += '<td>' + this.segmentType + '</td>'; // Type
@@ -31,12 +35,35 @@ function populateSegmentTable(){
         });
         //Inject into HTML table
         $('#segList table tbody').html(tableContent);
-        //$('#segList table').DataTable();
+    }).done(function(){
+        $('#segList table').DataTable();
     });
 };
 
 function populatePagination(){
-    $('#segList table').DataTable();
+    $('#segPage table').dataTable({
+        'destroy': true,
+        'ajax': {
+            'url': '/psychos/segments',
+            'type': 'GET'
+        },
+        'columns' : [
+            {'data': 'text'},
+            {'data': 'segmentType'},
+            {
+                'data': '_id',
+                'render': function(data, type, full, meta) {
+                    return '<a href="#" class="linkshowsegment" rel="' + data + '">Show</a>'
+                }
+            },
+            {
+                'data': '_id',
+                'render': function(data, type, full, meta) {
+                    return '<a href="#" class="linkdeletesegment" rel="' + data + '">Delete</a>'
+                }
+            }
+        ]
+    });
 }
 
 // Ajax calls for our segment dropdown
@@ -95,8 +122,9 @@ function addSegment(event) {
             populateSegmentDropdown();
 
             // Update table
-            populateSegmentTable();
-            //populatePagination();
+            //populateSegmentTable();
+
+            populatePagination();
         } else {
             alert('Error: ' + response.msg);
         }

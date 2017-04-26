@@ -15,9 +15,9 @@ router.get('/segments', function(req, res){
     NameSegment.find()
         .select('text segmentType _id')
         .exec(function(e, segments){
-        if (e) throw e;
-        res.json(segments);
-    });
+            if (e) throw e;
+            res.json({'data': segments});
+        });
 });
 
 /* GET name segment types. */
@@ -30,7 +30,6 @@ router.get('/segmentTypes', function(req, res){
         res.json(segmentTypes);
     });
 });
-
 
 /* POST name segments */
 router.post('/addsegment', function(req, res){
@@ -47,7 +46,15 @@ router.post('/addsegment', function(req, res){
 
 /* GET name generation */
 router.get('/name', function(req, res){
+    var db = req.db;
     // Get list of Name Types
+    var NameSegment = models.NameSegment;
+    NameSegment.find().distinct('segmentType', function(e, sTypes){
+        if (e) throw e;
+        res.json({'length': sTypes.length, 'data': sTypes});
+    });
+
+
     // Pick 2-3 types.
     // Pick a random word of each type.
     // Present them in a random order.
