@@ -11,8 +11,9 @@ router.get('/', function(req, res) {
 router.get('/segments', function(req, res){
     var db = req.db;
     var NameSegment = models.NameSegment;
+    var SegmentType = models.SegmentType;
 
-    NameSegment.find()
+    NameSegment.find().populate('segmentType')
         .select('text segmentType _id')
         .exec(function(e, segments){
             if (e) throw e;
@@ -23,11 +24,11 @@ router.get('/segments', function(req, res){
 /* GET name segment types. */
 router.get('/segmentTypes', function(req, res){
     var db = req.db;
-    var NameSegment = models.NameSegment;
+    var SegmentType = models.SegmentType;
 
-    NameSegment.find().distinct('segmentType', function(e, segmentTypes){
+    SegmentType.find().exec(function(e, segmentTypes){
         if (e) throw e;
-        res.json(segmentTypes);
+        res.json({'data': segmentTypes});
     });
 });
 

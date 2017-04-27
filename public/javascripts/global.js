@@ -3,10 +3,6 @@ var segTypesData = [];
 
 // DOM Ready ============
 $(document).ready(function(){
-    /*
-    populateSegmentTable();
-    $('#segList table tbody').on('click', 'td a.linkshowsegment', showSegment);
-    */
     populatePagination();
     $('#segPage div table tbody').on('click', 'td a.linkshowsegment', showSegment);
 
@@ -18,28 +14,6 @@ $(document).ready(function(){
 // Functions ============
 
 // Ajax calls for our Psycho name segment list
-function populateSegmentTable(){
-    var tableContent = '';
-
-    // jQuery AJAX call for json
-    $.getJSON('/psychos/segments', function(data){
-        segListData = data.data;
-        // Add row for each item in data
-        $.each(data.data, function(){
-            tableContent += '<tr>';
-            tableContent += '<td>' + this.text + '</td>'; // Segment
-            tableContent += '<td>' + this.segmentType + '</td>'; // Type
-            tableContent += '<td><a href="#" class="linkshowsegment" rel="' + this._id + '">Show</a></td>'; // Edit
-            tableContent += '<td><a href="#" class="linkdeletesegment" rel="' + this._id + '">Delete</a></td>'; // Delete
-            tableContent += '</tr>';
-        });
-        //Inject into HTML table
-        $('#segList table tbody').html(tableContent);
-    }).done(function(){
-        $('#segList table').DataTable();
-    });
-};
-
 function populatePagination(){
     $('#segPage table').dataTable({
         'initComplete': function(settings, json){
@@ -71,7 +45,7 @@ function populatePagination(){
         'columns' : [
             {'data': 'text'},
             {
-                'data': 'segmentType',
+                'data': 'segmentType.text',
                 'className': 'select-filter'
             },
             {
@@ -96,10 +70,10 @@ function populateSegmentDropdown(){
 
     // jQuery AJAX call for json
     $.getJSON('/psychos/segmentTypes', function(data){
-        segTypesData = data;
+        segTypesData = data.data;
         // Add row for each item in data
-        $.each(data, function(){
-            listContent += '<option value="' + this + '">' + this + '</option>'; // Segment
+        $.each(data.data, function(){
+            listContent += '<option value="' + this._id + '">' + this.text + '</option>'; // Segment
         });
 
         //Inject into HTML table
@@ -117,8 +91,9 @@ function showSegment(event) {
     var thisSegmentObject = segListData[arrayPosition];
 
     // Populate Segment Info
-    $('#segmentSegmentType').text(thisSegmentObject.segmentType);
     $('#segmentText').text(thisSegmentObject.text);
+    $('#segmentTypeText').text(thisSegmentObject.segmentType.text);
+    $('#segmentTypePriority').text(thisSegmentObject.segmentType.priority);
 }
 
 // Add Segment through Ajax
@@ -145,9 +120,7 @@ function addSegment(event) {
             // Reset dropdown
             populateSegmentDropdown();
 
-            // Update table
-            //populateSegmentTable();
-
+            // Rebuild table
             populatePagination();
         } else {
             alert('Error: ' + response.msg);
