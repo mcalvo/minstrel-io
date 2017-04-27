@@ -51,12 +51,21 @@ router.get('/name', function(req, res){
     var NameSegment = models.NameSegment;
     NameSegment.find().distinct('segmentType', function(e, sTypes){
         if (e) throw e;
-        var array_rand = function(items){
+        var arrayRand = function(items){
             var int = Math.floor(Math.random()*items.length);
             var result = items.splice(int, 1);
             return result;
         };
-        res.json({'data': sTypes, 'rand': array_rand(sTypes)});
+        var typeSet = []
+        var segCount = 2 + Math.floor(Math.random()*2);
+        for (;segCount > 0; segCount--){
+            typeSet.push(arrayRand(sTypes)[0]);
+        }
+        console.log(typeSet);
+        for (type in typeSet){
+            console.log(type);
+        }
+        res.json(sTypes);
     });
 
 
