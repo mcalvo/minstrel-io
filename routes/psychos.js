@@ -26,7 +26,7 @@ router.get('/segmentTypes', function(req, res){
     var db = req.db;
     var SegmentType = models.SegmentType;
 
-    SegmentType.find().exec(function(e, segmentTypes){
+    SegmentType.find().sort('priority').exec(function(e, segmentTypes){
         if (e) throw e;
         res.json({'data': segmentTypes});
     });
@@ -66,9 +66,10 @@ router.get('/name', function(req, res){
             rel_type = arrayRand(segmentTypes)[0];
 
             // Pick a random word of the selected type.
-            NameSegment.find({ 'segmentType': rel_type._id }).select('text').exec(function(e, nameSegments){
+            NameSegment.find({ 'segmentType': rel_type._id }).exec(function(e, nameSegments){
                 rand_word = arrayRand(nameSegments)[0];
                 console.log(rand_word.text);
+                //typeSet = typeSet.push(rand_word.text);
             });
         }
         // Display according to Priority

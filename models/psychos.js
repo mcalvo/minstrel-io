@@ -10,9 +10,9 @@ var nameSegmentSchema = new Schema({
     text: { type: String, required: true }
 });
 
-// Lesser Priority: After word
+// Lesser Priority: Before word
 // Equal Priority: interchangable
-// Greater Priority: Before word
+// Greater Priority: After word
 var segmentTypeSchema = new Schema({
     priority: { type: String, required: true },
     text: { type: String, required: true }
