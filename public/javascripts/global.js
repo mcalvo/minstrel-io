@@ -42,6 +42,27 @@ function populateSegmentTable(){
 
 function populatePagination(){
     $('#segPage table').dataTable({
+        'initComplete': function(settings, json){
+            // Populate global variable for everyone's sakes
+            segListData = json.data;
+            // Build type filter
+            this.api().columns('.select-filter').every(function(){
+                var column = this;
+                var select = $('<select><option value="">Types</option></select>')
+                    .appendTo($(column.header()).empty())
+                    .on('change', function(){
+                        var val = $.fn.dataTable.util.escapeRegex(
+                            $(this).val()
+                        );
+                        column
+                            .search(val ? '^'+val+'$' : '' , true, false)
+                            .draw();
+                    });
+                column.data().unique().sort().each(function(d, j){
+                    select.append('<option value="'+d+'">'+d+'</option>');
+                });
+            });
+        },
         'destroy': true,
         'ajax': {
             'url': '/psychos/segments',
@@ -49,7 +70,10 @@ function populatePagination(){
         },
         'columns' : [
             {'data': 'text'},
-            {'data': 'segmentType'},
+            {
+                'data': 'segmentType',
+                'className': 'select-filter'
+            },
             {
                 'data': '_id',
                 'render': function(data, type, full, meta) {

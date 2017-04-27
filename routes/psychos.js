@@ -61,11 +61,10 @@ router.get('/name', function(req, res){
         for (;segCount > 0; segCount--){
             typeSet.push(arrayRand(sTypes)[0]);
         }
-        console.log(typeSet);
-        for (type in typeSet){
-            console.log(type);
-        }
-        res.json(sTypes);
+        typeSet.forEach(function(value){
+            console.log(value);
+        });
+        res.json(typeSet);
     });
 
 
