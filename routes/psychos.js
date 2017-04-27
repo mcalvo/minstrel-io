@@ -50,7 +50,9 @@ router.get('/name', function(req, res){
     var db = req.db;
     // Get list of Name Types
     var NameSegment = models.NameSegment;
-    NameSegment.find().distinct('segmentType', function(e, sTypes){
+    var SegmentType = models.SegmentType;
+
+    SegmentType.find().select('text').exec(function(e, segmentTypes){
         if (e) throw e;
         var arrayRand = function(items){
             var int = Math.floor(Math.random()*items.length);
@@ -60,18 +62,20 @@ router.get('/name', function(req, res){
         var typeSet = []
         var segCount = 2 + Math.floor(Math.random()*2);
         for (;segCount > 0; segCount--){
-            typeSet.push(arrayRand(sTypes)[0]);
+            // Pick a random segment type.
+            rel_type = arrayRand(segmentTypes)[0];
+
+            // Pick a random word of the selected type.
+            NameSegment.find({ 'segmentType': rel_type._id }).select('text').exec(function(e, nameSegments){
+                rand_word = arrayRand(nameSegments)[0];
+                console.log(rand_word.text);
+            });
         }
-        typeSet.forEach(function(value){
-            console.log(value);
-        });
+        // Display according to Priority
         res.json(typeSet);
     });
 
 
-    // Pick 2-3 types.
-    // Pick a random word of each type.
-    // Present them in a random order.
 });
 
 module.exports = router;
