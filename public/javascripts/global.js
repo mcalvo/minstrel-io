@@ -9,6 +9,8 @@ $(document).ready(function(){
     populateSegmentDropdown();
     $('#btnAddSegment').on('click', addSegment);
 
+    $('#btnNameGen').on('click', generateName);
+
 });
 
 // Functions ============
@@ -128,3 +130,21 @@ function addSegment(event) {
     });
 }
 
+function generateName(event){
+    event.preventDefault();
+    $.ajax({
+        type: 'GET',
+        url: '/psychos/name',
+        dataType: 'JSON'
+    }).done(function(response){
+        var nameOutput = ''
+        $.each(response, function() {
+            nameOutput += this.text + ' ';
+        });
+        //Inject into HTML table
+        $('#nameGen p #nameResult').html(nameOutput);
+
+    });
+
+
+}

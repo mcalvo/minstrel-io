@@ -52,31 +52,7 @@ router.get('/name', function(req, res){
     // Get list of Name Types
     var NameSegment = models.NameSegment;
     var SegmentType = models.SegmentType;
-    /*
-    SegmentType.find().select('text').exec(function(e, segmentTypes){
-        if (e) throw e;
-        var arrayRand = function(items){
-            var int = Math.floor(Math.random()*items.length);
-            var result = items.splice(int, 1);
-            return result[0];
-        };
-        var typeSet = []
-        var segCount = 2 + Math.floor(Math.random()*2);
-        for (;segCount > 0; segCount--){
-            // Pick a random segment type.
-            var rel_type = arrayRand(segmentTypes);
 
-            // Pick a random word of the selected type.
-            NameSegment.find({ 'segmentType': rel_type._id }).exec(function(e, nameSegments){
-                rand_word = arrayRand(nameSegments);
-                console.log(rand_word.text);
-                //typeSet = typeSet.push(rand_word.text);
-            });
-        }
-        // Display according to Priority
-        res.json(typeSet);
-    });
-    */
     var arrayRand = function(items, nums){
         var result = []
         for(var i = 0; i < nums; i++){
@@ -105,8 +81,9 @@ router.get('/name', function(req, res){
         });
         return Q.all(promiseSet);
     }).then(function(results){
-        console.log(results);
-        res.json(typeSet);
+        res.json(results.sort(function(a, b){
+            return a.segmentType.priority - b.segmentType.priority;
+        }));
     })
 });
 
