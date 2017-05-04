@@ -5,6 +5,7 @@ var segTypesData = [];
 $(document).ready(function(){
     populatePagination();
     $('#segPage div table tbody').on('click', 'td a.linkshowsegment', showSegment);
+    $('#segPage div table tbody').on('click', 'td a.linkdeletesegment', deleteSegment);
 
     populateSegmentDropdown();
     $('#btnAddSegment').on('click', addSegment);
@@ -128,6 +129,34 @@ function addSegment(event) {
             alert('Error: ' + response.msg);
         }
     });
+}
+
+// Delete Segment through Ajax
+function deleteSegment(event) {
+    event.preventDefault();
+
+    // Need some validation
+    // Confirmation dialog
+    var confirmation = confirm('Are you sure you want to delete?');
+
+    if( confirmation === true){
+        $.ajax({
+            type: 'DELETE',
+            url: '/psychos/deletesegment/'+ $(this).attr('rel'),
+        }).done(function(response) {
+            if (response.msg === ''){
+            } else {
+                alert('Error: ' + response.msg);
+            }
+            // Reset dropdown
+            populateSegmentDropdown();
+
+            // Rebuild table
+            populatePagination();
+        });
+    } else {
+        return false;
+    }
 }
 
 function generateName(event){

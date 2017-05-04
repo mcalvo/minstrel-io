@@ -46,6 +46,17 @@ router.post('/addsegment', function(req, res){
 
 });
 
+/* POST name segments */
+router.delete('/deletesegment/:id', function(req, res){
+    var db = req.db;
+    var NameSegment = models.NameSegment;
+    NameSegment.findByIdAndRemove(req.params.id, function(err){
+        res.send(
+            (err === null) ? { msg: '' } : { msg: 'error: ' + err }
+        );
+    });
+});
+
 /* GET name generation */
 router.get('/name', function(req, res){
     var db = req.db;
