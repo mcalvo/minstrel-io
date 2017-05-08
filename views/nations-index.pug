@@ -1,11 +1,11 @@
 extends layout
 
 block scripts
-    script(src='/javascripts/psychos.js')
+    script(src='/javascripts/nations.js')
 
 block content
     h1=title
-    p Generate psycho names
+    p Generate nationalized NPC names
 
     // Wrapper
     #wrapper
@@ -14,16 +14,9 @@ block content
             fieldset
                 input#inputSegmentText(type='text', placeholder='Text')
                 select#inputSegmentType
+                select#inputNation
                 br
                 button#btnAddSegment Add Segment
-
-        #nameGen
-            h2 Generate Name
-            p
-                strong Name:
-                |   <span id='nameResult'></span>
-                button#btnNameGen Generate Name
-
 
         #segInfo
             h2 Segment Info
@@ -36,6 +29,9 @@ block content
                 br
                 strong Priority:
                 |   <span id='segmentTypePriority'></span>
+                br
+                strong Nation:
+                |   <span id='segmentNationality'></span>
 
 
         h2 Segments
